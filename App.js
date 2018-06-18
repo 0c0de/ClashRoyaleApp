@@ -6,16 +6,7 @@
 
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-<<<<<<< HEAD
 import { Platform, StyleSheet, View, StatusBar } from 'react-native';
-=======
-import {
-  Platform,
-  StyleSheet,
-  View,
-  StatusBar
-} from 'react-native';
->>>>>>> e2c9b766df729e844bcb709ee20bfe87f1ff8b53
 import { Header, Left, Right, Body, Container, Content, Footer, FooterTab, Button, Text, Title, Tabs, Tab, TabHeading } from 'native-base'
 import Home from './components/Home';
 import Deck from './components/Deck';
