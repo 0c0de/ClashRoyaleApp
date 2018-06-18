@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, AsyncStorage } from 'react-native';
-import { Content, Container, Title, Col, Image, Thumbnail, Text, Body } from 'native-base';
+import { Content, Container, Title, Col, Image, Thumbnail, Text, Body, Right, Left, List, ListItem } from 'native-base';
 import Prompt from 'react-native-prompt';
 
 export default class Account extends Component {
@@ -9,11 +9,17 @@ export default class Account extends Component {
     super();
     this.state = {
       opened: true,
-      isLoaded: false,
       name: '',
       clan: '',
       clanImage: '',
-
+      deck1: '',
+      deck2: '',
+      deck3: '',
+      deck4: '',
+      deck5: '',
+      deck6: '',
+      deck7: '',
+      deck8: '',
     }
   }
 
@@ -27,9 +33,28 @@ export default class Account extends Component {
     return (
       <Container>
         <Prompt title="Introduce tu tag de Clash Royale" defaultValue="8P2VRQRR" placeholder="Ejemplo 8P2VRQRR" visible={this.state.opened} onCancel={() => this.onCancelPrompt(e)} onSubmit={(e) => this.onSubmitPrompt(e)} />
-        <Content padder>
-          <Text style={{textAlign: 'center'}}>{this.state.name}</Text>
-          <Thumbnail square source={{uri: this.state.clanImage}} />
+        <Content>
+          <List>
+            <ListItem style={{borderBottomWidth: 0}}>
+              <Thumbnail square size={80} source={{uri: this.state.clanImage}}/>
+              <Body>
+                <Text style={{fontSize: 27, fontWeight: 'bold'}}>{this.state.name}</Text>
+                <Text style={{fontSize: 23, fontWeight: 'bold', color: '#9E9E9E'}}>Clan: {this.state.clan}</Text>
+              </Body>
+            </ListItem>
+            <ListItem style={{borderBottomWidth: 0, padding: 30}} >
+              <Thumbnail resizeMode="contain" square large source={{uri: this.state.deck1}} />
+              <Thumbnail resizeMode="contain" square large source={{uri: this.state.deck2}} />
+              <Thumbnail resizeMode="contain" square large source={{uri: this.state.deck3}} />
+              <Thumbnail resizeMode="contain" square large source={{uri: this.state.deck4}} />
+            </ListItem>
+            <ListItem style={{borderBottomWidth: 0, padding: 30}}>
+              <Thumbnail resizeMode="contain" square large source={{uri: this.state.deck5}} />
+              <Thumbnail resizeMode="contain" square large source={{uri: this.state.deck6}} />
+              <Thumbnail resizeMode="contain" square large source={{uri: this.state.deck7}} />
+              <Thumbnail resizeMode="contain" square large source={{uri: this.state.deck8}} />
+            </ListItem>
+          </List>
         </Content>
       </Container>
     )
@@ -58,8 +83,19 @@ export default class Account extends Component {
     fetch('https://api.royaleapi.com/players/'+tag, ajaxInfo).then((promise) => {
       return promise.json();
     }).then((response) => {
-      this.setState({clanImage: response.clan.badge.image, name: response.name, isLoaded: true});
-      alert(this.state.userInfo.clan.badge.image);
+      this.setState({
+        clanImage: response.clan.badge.image, 
+        name: response.name, 
+        clan: response.clan.name,
+        deck1: response.currentDeck[0].icon,
+        deck2: response.currentDeck[1].icon,
+        deck3: response.currentDeck[2].icon,
+        deck4: response.currentDeck[3].icon,
+        deck5: response.currentDeck[4].icon,
+        deck6: response.currentDeck[5].icon,
+        deck7: response.currentDeck[6].icon,
+        deck8: response.currentDeck[7].icon
+      });
     }).catch((err) => {
       alert(err);
     });
