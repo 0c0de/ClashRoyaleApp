@@ -58,7 +58,7 @@ export default class Account extends Component {
     });
   }
 
-  /*saveUser(key, value){
+  async saveUser(key, value){
     try {
       //Saving our item in a persistent way
       await AsyncStorage.setItem(key, value);
@@ -66,9 +66,9 @@ export default class Account extends Component {
       //Another Error
       return;
     }
-  }*/
+  }
 
-  /*searchData(key){
+  async searchData(key){
     try {
       const value = await AsyncStorage.getItem(key);
       if (value !== null){
@@ -79,5 +79,5 @@ export default class Account extends Component {
       // Error retrieving data
       return;
     }
-  }*/
+  }
 }
