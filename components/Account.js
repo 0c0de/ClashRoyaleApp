@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View, AsyncStorage } from 'react-native';
-import { Content, Container } from 'native-base';
+import { View, AsyncStorage } from 'react-native';
+import { Content, Container, Title, Col, Image, Thumbnail, Text, Body } from 'native-base';
 import Prompt from 'react-native-prompt';
 
 export default class Account extends Component {
@@ -9,6 +9,11 @@ export default class Account extends Component {
     super();
     this.state = {
       opened: true,
+      isLoaded: false,
+      name: '',
+      clan: '',
+      clanImage: '',
+
     }
   }
 
@@ -18,11 +23,13 @@ export default class Account extends Component {
   }
   
   render() {
+    
     return (
       <Container>
-        <Prompt title="Introduce tu tag de Clash Royale" placeholder="Ejemplo 8P2VRQRR" visible={this.state.opened} onCancel={() => this.onCancelPrompt(e)} onSubmit={(e) => this.onSubmitPrompt(e)} />
+        <Prompt title="Introduce tu tag de Clash Royale" defaultValue="8P2VRQRR" placeholder="Ejemplo 8P2VRQRR" visible={this.state.opened} onCancel={() => this.onCancelPrompt(e)} onSubmit={(e) => this.onSubmitPrompt(e)} />
         <Content padder>
-          <Text></Text>
+          <Text style={{textAlign: 'center'}}>{this.state.name}</Text>
+          <Thumbnail square source={{uri: this.state.clanImage}} />
         </Content>
       </Container>
     )
@@ -51,7 +58,8 @@ export default class Account extends Component {
     fetch('https://api.royaleapi.com/players/'+tag, ajaxInfo).then((promise) => {
       return promise.json();
     }).then((response) => {
-      alert(JSON.stringify(response));
+      this.setState({clanImage: response.clan.badge.image, name: response.name, isLoaded: true});
+      alert(this.state.userInfo.clan.badge.image);
     }).catch((err) => {
       alert(err);
     });
