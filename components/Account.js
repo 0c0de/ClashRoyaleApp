@@ -36,7 +36,6 @@ export default class Account extends Component {
   //On submit save user and close dialog
   onSubmitPrompt(e){
     this.setState({opened: false});
-    alert(e.toString());
     this.getUserInfo(e);
   }
 
