@@ -13,4 +13,5 @@ Nativebase es un kit UI para react native
 # Instrucciones
 
 `git clone https://github.com/0c0de/ClashRoyaleApp`
+
 `npm install`
