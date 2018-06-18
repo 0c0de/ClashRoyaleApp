@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, AsyncStorage } from 'react-native';
 import { Content, Container } from 'native-base';
 import Prompt from 'react-native-prompt';
 
@@ -12,31 +12,36 @@ export default class Account extends Component {
     }
   }
 
+  //When account component gets active (only executed one time)
   componentDidMount(){
-    
-    //this.getUserInfo();
+    //this.getUserInfo(this.searchData('account'));
   }
   
   render() {
     return (
       <Container>
-        <Prompt title="Introduce tu tag de Clash Royale" placeholder="Ejemplo 8P2VRQRR" visible={this.state.opened} onCancel={this.onCancelPrompt()} onSubmit={this.onSubmitPrompt()} />
+        <Prompt title="Introduce tu tag de Clash Royale" placeholder="Ejemplo 8P2VRQRR" visible={this.state.opened} onCancel={() => this.onCancelPrompt(e)} onSubmit={(e) => this.onSubmitPrompt(e)} />
         <Content padder>
-          <Text> Account Screen </Text>
+          <Text></Text>
         </Content>
       </Container>
     )
   }
 
-  onCancelPrompt(){
+  //On cancel just close dialog
+  onCancelPrompt(e){
     this.setState({opened: false});
   }
 
-  onSubmitPrompt(){
+  //On submit save user and close dialog
+  onSubmitPrompt(e){
     this.setState({opened: false});
+    alert(e.toString());
+    this.getUserInfo(e);
   }
 
-  getUserInfo(){
+  //Getting user info with API
+  getUserInfo(tag){
     var ajaxInfo = {
       method: 'GET',
       type: 'JSON',
@@ -44,7 +49,7 @@ export default class Account extends Component {
         "auth": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTI2LCJpZGVuIjoiMjYyMzQ4ODYxODMyNDI5NTc5IiwibWQiOnt9LCJ0cyI6MTUyOTMyMzkwMjYwNn0.FL99BeVaykwC5OWsFRDDTJGjKW9yJ4g_QKWtpTCJpa4',
       }
     };
-    fetch('https://api.royaleapi.com/players/8P2VRQRR', ajaxInfo).then((promise) => {
+    fetch('https://api.royaleapi.com/players/'+tag, ajaxInfo).then((promise) => {
       return promise.json();
     }).then((response) => {
       alert(JSON.stringify(response));
@@ -52,4 +57,27 @@ export default class Account extends Component {
       alert(err);
     });
   }
+
+  /*saveUser(key, value){
+    try {
+      //Saving our item in a persistent way
+      await AsyncStorage.setItem(key, value);
+    } catch (error) {
+      //Another Error
+      return;
+    }
+  }*/
+
+  /*searchData(key){
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null){
+        // Power of data
+        return value
+      }
+    } catch (error) {
+      // Error retrieving data
+      return;
+    }
+  }*/
 }
